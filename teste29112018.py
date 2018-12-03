@@ -1,95 +1,25 @@
 # -*- coding: utf-8 -*-
 
 
-# Devolve a matriz de dados...!
 def get_dados():
     return [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
 
 
-# Pega os dicionários para a matriz de dados
-def get_dics():
-    dados = get_dados()
-
-    el_dic = {}
-    pos_dic = {}
-
-    for x, line in enumerate(dados):
-        for y, e in enumerate(line):
-            pos_dic[(x, y)] = e
-            el_dic[e] = (x, y)
-
-    return el_dic, pos_dic
+def get_elem_dic():
+    return {1 : (6, 8), 2 : (7, 9),
+            3 : (4, 8), 4 : (3, 9),
+            5 : tuple(), 6 : (1, 7),
+            7 : (2, 6), 8 : (1, 3),
+            9 : (2, 4)}
 
 
-el_dic, pos_dic = get_dics()
+elem_dic = get_elem_dic()
 
 
-# Pega a posição no dicionário de posições na matriz com a devida chave de valor na matriz...!
-def get_x_y(pc):
-    return el_dic[pc]
-
-
-# Pega a posição no dicionário de valor na matriz com a devida chave de posição na matriz...!
-def get_el(x, y):
-    return pos_dic[(x, y)]
-
-
-# Uma posição é válida na matriz fornecida?
-def valid_pos(x, y, len_x, len_y):
-    if x < 0 or y < 0:
-        return False
-
-    return x < len_x and y < len_y
-
-
-# popula o dicionário da lista de posições possíveis.
-def populate_lista_pos_dic():
-    lista_pos = {}
-
-    dados = get_dados()
-
-    line = dados[0]
-    len_x, len_y = len(line), len(dados) # Vê os tamanhos da matriz de dados
-
-    # Varre por todos os itens da matriz de dados...
-    for i in range(1, len_y * len_x + 1):
-        t_p = get_x_y(i)
-        x, y = t_p
-        candidate_pos = []
-
-        for t in ((1, 2), (2, 1)):
-            d_a, d_b = t
-            for a in (-d_a, d_a):
-                for b in (-d_b, d_b):
-                    c_x = x + a
-                    c_y = y + b
-                    if valid_pos(c_x, c_y, len_x, len_y):
-                        candidate_pos.append((c_x, c_y))
-
-        lista_pos[(x, y)] = candidate_pos
-
-    return lista_pos
-
-
-
-lista_pos_dic = populate_lista_pos_dic()
-
-
-# Função auxiliar que pega os próximos movimentos possíveis para o cavalo, dada uma posíção!
 def get(pc):
-    lista = []
-
-    x_pc, y_pc = get_x_y(pc)
-
-    lista_pos = lista_pos_dic[(x_pc, y_pc)]
-
-    for t in lista_pos:
-        lista.append(get_el(*t))
-
-    return lista
+    return elem_dic[pc]
 
 
-# Função auxiliar recursiva para popular a lista com as listas desejadas!
 def f_aux(listas, n):
     # Caso base desta função recursiva!
     if len(listas[0]) == n:
@@ -98,16 +28,17 @@ def f_aux(listas, n):
     result = list()
     for lista in listas:
         p = lista[-1]
-        nova = get(p) # pega novas posições possíveis!
-        n_ls = [] # lista de novas listas...
-        for el in nova: # Para cada posição nova...
-            sub = [i for i in lista]
-            sub.append(el) # popula uma nova sublista a partir da lista dada acrescida com a nova
-                           # posição...
-            n_ls.append(sub) # acrescenta a nova sublista...
-        result.extend(n_ls) # acrescenta, na lista final, as novas listas possíveis...
+        novas_pos_s = get(p)
+        new_lst_s = lista * len(novas_pos_s)
 
-    return f_aux(result, n) # chamada recursiva para preencher as listas até o tamanho ideal!
+        iterator = 0
+        for indice, el in enumerate(novas_pos_s):
+            for i in range(iterator, iterator + len(lista)):
+                new_lst_s[i].append(el)
+            iterator += len(novas_pos_s)
+        result.extend(new_lst_s)
+
+    return f_aux(result, n)
 
 
 def f(p, n):
@@ -139,4 +70,5 @@ if __name__ == "__main__":
     p = int(input('Insira p: '))
     n = int(input('Insira n: '))
     r = f(p, n)
-    print 'resultado:', r
+    print 'len(f):', len(r)
+    # print 'resultado:', r
