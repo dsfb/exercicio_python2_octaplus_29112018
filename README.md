@@ -1,5 +1,5 @@
 # exercicio_python2_octaplus_29112018
-Resolução de um exercício proposto no Estágio na Octaplus, em Python 2, no dia 29/11/2018
+Resolução de um exercício proposto no Estágio na Octaplus, em Python 2, no dia 29/11/2018, pelo Hugo Corrá!
 
 Enunciado do exercício:
 Criar uma função f(Pi, N), em Python 2, onde Pi = [1, 9], e N > 0,
