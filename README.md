@@ -7,12 +7,12 @@ que retorne todas as combinações possíveis considerando N saltos do cavalo (d
 
 Considerar que o cavalo está dentro de um cubículo fechado, na forma de uma matriz 3 x 3, e que, a matriz é representada por:
 
--------------
+
 | 7 | 8 | 9 |
--------------
+
 | 4 | 5 | 6 |
--------------
+
 | 1 | 2 | 3 |
--------------
+
 
 .
