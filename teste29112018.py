@@ -14,10 +14,6 @@ elem_dic = {1 : (6, 8), 2 : (7, 9),
             9 : (2, 4)}
 
 
-def get_available_positions(pc):
-    return elem_dic[pc]
-
-
 def f_aux(listas, n):
     # Caso base desta função recursiva!
     if len(listas[0]) == n:
@@ -26,10 +22,10 @@ def f_aux(listas, n):
     result = list()
 
     for lista in listas:
-        novas_pos_s = get_available_positions(lista[-1])
+        first_pos, second_pos = elem_dic[lista[-1]]
         lista1 = lista[:]
-        lista1.append(novas_pos_s[0])
-        lista.append(novas_pos_s[1])
+        lista1.append(first_pos)
+        lista.append(second_pos)
         result.append(lista1)
 
     listas.extend(result)
@@ -39,10 +35,10 @@ def f_aux(listas, n):
 
 def f(p, n):
     if p > 0 and p < 10 and n > 0:
-        if p == 5:
-            return list()
-
-        return f_aux([[p,],], n)
+        # Casos de posições possíveis para o cavalo realizar o(s) salto(s)!
+        # A posição 5 não permite que o cavalo consiga realizar um salto!
+        if p != 5:
+            return f_aux([[p,],], n)
 
     return list()
 
