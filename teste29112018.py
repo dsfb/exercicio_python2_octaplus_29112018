@@ -2,9 +2,6 @@
 
 import cProfile
 
-def get_dados():
-    return [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
-
 
 # Para cada elemento, mapeia os outros elementos alcançáveis via um salto simples do cavalo!
 elem_dic = {1 : (6, 8), 2 : (7, 9),
