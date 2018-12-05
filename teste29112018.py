@@ -3,39 +3,32 @@
 import cProfile
 
 
-# Para cada elemento, mapeia os outros elementos alcançáveis via um salto simples do cavalo!
-elem_dic = {1 : (6, 8), 2 : (7, 9),
-            3 : (4, 8), 4 : (3, 9),
-            5 : tuple(), 6 : (1, 7),
-            7 : (2, 6), 8 : (1, 3),
-            9 : (2, 4)}
-
-
-def f_aux(listas, n):
-    # Caso base desta função recursiva!
-    if len(listas[0]) == n:
-        return listas
-
-    result = list()
-
-    for lista in listas:
-        first_pos, second_pos = elem_dic[lista[-1]]
-        lista1 = lista[:]
-        lista1.append(first_pos)
-        lista.append(second_pos)
-        result.append(lista1)
-
-    listas.extend(result)
-
-    return f_aux(listas, n)
-
-
 def f(p, n):
     if p > 0 and p < 10 and n > 0:
         # Casos de posições possíveis para o cavalo realizar o(s) salto(s)!
         # A posição 5 não permite que o cavalo consiga realizar um salto!
         if p != 5:
-            return f_aux([[p,],], n)
+            # Para cada elemento, mapeia os outros elementos alcançáveis via um salto simples do cavalo!
+            elem_dic = {1 : (6, 8), 2 : (7, 9),
+                        3 : (4, 8), 4 : (3, 9),
+                        5 : tuple(), 6 : (1, 7),
+                        7 : (2, 6), 8 : (1, 3),
+                        9 : (2, 4)}
+
+            listas = [[p,],]
+
+            while len(listas[0]) < n:
+                original_len = len(listas)
+
+                for i in range(original_len):
+                    lista = listas[i]
+                    first_pos, second_pos = elem_dic[lista[-1]]
+                    lista1 = lista[:]
+                    lista1.append(first_pos)
+                    lista.append(second_pos)
+                    listas.append(lista1)
+
+            return listas
 
     return list()
 
